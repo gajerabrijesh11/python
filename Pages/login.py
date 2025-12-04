@@ -10,4 +10,4 @@ class test_loginpage:
     def enter_password (self, password):
         self.password_input.fill(password)
     def click_login (self):
-        self.login_button.click() 
+        self.login_button.click()
