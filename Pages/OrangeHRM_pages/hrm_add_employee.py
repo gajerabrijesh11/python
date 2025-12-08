@@ -1,5 +1,5 @@
 from playwright.sync_api import Page, expect
-class test_hrmaddemployeepage:
+class HRMAddEmployeePage:
     def __init__(self, page: Page):
         self.page = page
         
@@ -23,8 +23,10 @@ class test_hrmaddemployeepage:
         self.page.get_by_role("option", name="B G N").first.click()
         self.page.get_by_role("button", name="Search").click()
         expect(self.page.get_by_text("B G")).to_be_visible()
-        self.page.locator(".oxd-table-card-cell-checkbox > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon").click()
+        self.page.get_by_role("cell", name="").click()
         self.page.get_by_role("button", name=" Delete Selected").click()
         self.page.get_by_role("button", name=" Yes, Delete").click()
         expect(self.page.get_by_text("SuccessSuccessfully Deleted×")).to_be_visible()
+        
+        
         

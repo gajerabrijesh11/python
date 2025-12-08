@@ -1,13 +1,13 @@
 import re
 from playwright.sync_api import Page, expect
-from Pages.OrangeHRM_pages.hrm_search_user import test_hrmsystemuserpage
-from Pages.OrangeHRM_pages.hrm_login import test_hrmloginpage
-from Pages.OrangeHRM_pages.hrm_site_open import test_hrmsiteopenpage
+from Pages.OrangeHRM_pages.hrm_search_user import HRMSystemUserPage
+from Pages.OrangeHRM_pages.hrm_login import HRMLoginPage
+from Pages.OrangeHRM_pages.hrm_site_open import HRMSiteOpenPage
 
 def test_hrm_search_user(page: Page) -> None:
-    opensite = test_hrmsiteopenpage(page)
-    login = test_hrmloginpage(page)
-    search_user = test_hrmsystemuserpage(page)
+    opensite =HRMSiteOpenPage(page)
+    login = HRMLoginPage(page)
+    search_user = HRMSystemUserPage(page)
     opensite.open_site()
     login.enter_username("Admin")
     login.enter_password("admin123")

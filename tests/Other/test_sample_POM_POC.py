@@ -1,8 +1,8 @@
 import re
 from playwright.sync_api import Page, expect
-from Pages.login import test_loginpage
-from Pages.addtocart import test_addtocartpage
-from Pages.logout import test_logoutpage
+from Pages.Other_pages.login import test_loginpage
+from Pages.Other_pages.addtocart import test_addtocartpage
+from Pages.Other_pages.logout import test_logoutpage
 
 def test_POM_POC(page: Page) -> None:
     page.goto("https://www.saucedemo.com/")

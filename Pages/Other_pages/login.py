@@ -7,7 +7,9 @@ class test_loginpage:
         self.login_button = page.locator("[data-test=\"login-button\"]")
     def enter_username (self, username):
         self.usename_input.fill(username)
+        
     def enter_password (self, password):
         self.password_input.fill(password)
+        
     def click_login (self):
         self.login_button.click()

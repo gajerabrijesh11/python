@@ -1,5 +1,5 @@
 from playwright.sync_api import Page
-class test_hrmsystemuserpage:
+class HRMSystemUserPage:
     def __init__(self, page: Page):
         self.page = page
         
