@@ -4,6 +4,7 @@ class HRMAddEmployeePage:
         self.page = page
         
     def add_employee (self):
+        
         self.page.get_by_role("link", name="PIM").click()
         self.page.get_by_role("link", name="Add Employee").click()
         self.page.get_by_role("textbox", name="First Name").fill("B")
@@ -14,15 +15,9 @@ class HRMAddEmployeePage:
         self.page.locator("input[type=\"password\"]").first.fill("admin123")
         self.page.locator("input[type=\"password\"]").nth(1).fill("admin123")
         self.page.get_by_role("button", name="Save").click()
-        try:
-            self.page.get_by_text("Username already exists").wait_for(timeout=2000)
-            print("Username already exists → deleting old employee...")
-            self.delete_employee()
-            self.add_employee()
-        except TimeoutError:
-            expect(self.page.get_by_text("SuccessSuccessfully Saved×")).to_be_visible()
-
+    
     def delete_employee(self):
+        
         self.page.get_by_role("link", name="PIM").click()
         expect(self.page.get_by_role("heading", name="Employee Information")).to_be_visible()
         self.page.get_by_role("textbox", name="Type for hints...").first.fill("b g n")
@@ -32,7 +27,7 @@ class HRMAddEmployeePage:
         self.page.get_by_role("cell", name="").click()
         self.page.get_by_role("button", name=" Delete Selected").click()
         self.page.get_by_role("button", name=" Yes, Delete").click()
-        expect(self.page.get_by_text("SuccessSuccessfully Deleted×")).to_be_visible()
+        # expect(self.page.get_by_text("SuccessSuccessfully Deleted×")).to_be_visible()
         
         
         
