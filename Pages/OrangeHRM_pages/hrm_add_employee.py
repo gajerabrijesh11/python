@@ -25,7 +25,6 @@ class HRMAddEmployeePage:
         self.page.get_by_role("button", name="Search").click()
         expect(self.page.get_by_text("B G")).to_be_visible()
         self.page.locator("label:has(i.oxd-checkbox-input-icon)").nth(1).click()
-        # self.page.get_by_role("cell", name="").click()
         self.page.get_by_role("button", name=" Delete Selected").click()
         self.page.get_by_role("button", name=" Yes, Delete").click()
         # expect(self.page.get_by_text("SuccessSuccessfully Deleted×")).to_be_visible()
