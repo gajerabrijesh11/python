@@ -1,16 +1,53 @@
 import allure
 import pytest
+import os
+from pathlib import Path
+
+@pytest.fixture(scope="function")
+def context(browser, request):
+    context = browser.new_context(
+        record_video_dir="videos/",
+        record_video_size={"width": 1280, "height": 720}
+    )
+    yield context
+    context.close()
+
+@pytest.fixture(scope="function")
+def page(context):
+    page = context.new_page()
+    yield page
+    page.close()
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
 
-    if rep.when == "call" and rep.failed:
+    if rep.when == "call":
         page = item.funcargs.get("page", None)
-        if page:
+
+        if rep.failed and page:
+            # Screenshot
+            screenshot = page.screenshot(full_page=True)
             allure.attach(
-                page.screenshot(),
-                name="Failure Screenshot",
+                screenshot,
+                name="Screenshot on Failure",
                 attachment_type=allure.attachment_type.PNG
             )
+
+            # Page HTML
+            allure.attach(
+                page.content(),
+                name="Page Source",
+                attachment_type=allure.attachment_type.HTML
+            )
+
+        # Attach video (pass or fail)
+        if page and page.video:
+            video_path = page.video.path()
+            if os.path.exists(video_path):
+                allure.attach.file(
+                    video_path,
+                    name="Test Video",
+                    attachment_type=allure.attachment_type.MP4
+                )

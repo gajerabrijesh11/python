@@ -1,4 +1,4 @@
-name: Playwright Allure Report (Subfolder URL)
+name: Playwright Python Allure Report (One Click)
 
 on:
   push:
@@ -9,38 +9,50 @@ permissions:
   contents: write
 
 jobs:
-  test:
+  test-and-publish:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           pip install -r requirements.txt
           python -m playwright install --with-deps
 
-      - name: Run tests
-        run: pytest --alluredir=allure-results
+      - name: 🏃 Run tests (collect Allure results)
+        run: |
+          pytest \
+          --alluredir=allure-results \
+          --video=retain-on-failure \
+          --tracing=retain-on-failure
 
-      - name: Install Allure
+      - name: 📦 Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Generate Allure report
+      - name: 📝 Generate Allure HTML report
         run: allure generate allure-results --clean -o allure-report
 
-      - name: Prepare Pages folder
+      - name: 📁 Prepare GitHub Pages folder
         run: |
           mkdir public
           mv allure-report public/
 
-      - name: Deploy to GitHub Pages
+      - name: 🚀 Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: public
+
+      - name: ✨ Show Allure Report URL
+        run: |
+          echo "======================================"
+          echo "✅ Allure Report URL:"
+          echo "👉 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/allure-report/"
+          echo "======================================"
