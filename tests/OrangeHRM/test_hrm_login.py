@@ -10,5 +10,5 @@ def test_hrm_login(page: Page) -> None:
     
     login = HRMLoginPage(page)
     
-    login.click_login()
+    login.login()
     expect(page).to_have_title("OrangeHRM")
